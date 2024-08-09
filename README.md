@@ -56,8 +56,11 @@ TL;DR: We suggest you to use SE3ET-E if the input point cloud is small (<10k poi
 In the paper, we propose two transformer configurations. **SE3ET-E** contains all the equivariant and invariant self-attention and cross-attention we proposed, and **SE3ET-I** contains equivariant self-attention and invariant cross-attention. The first one provides better performance on low-overlap and random rotation cases but higher on memory consumption. The latter one maintain good performance while keeping lower memory consumption. We suggest you use SE3ET-E if the input point cloud is small (<10k points) and use SE3ET-I if the input point cloud is large (>10k points). We also provide SE3ET-E2 and SE3ET-I2 which the feature size is 2x smaller to boost computation performance. Please check the paper for their performance comparison.
 
 ## Demo
-If you just want to test how well it works, run the demo code.
-TODO
+If you want to test on your data, direct to either one of the experiment folder, and then run the demo code.
+```
+cd experiments/se3eti.3dmatch
+python demo.py --src_file=<point_cloud_1_path> --ref_file=<point_cloud_2_path> --gt_file=<ground_truth_transformation_file> --weights=../../weights/se3eti.3dmatch.pth.tar
+```
 
 ## 3DMatch
 
