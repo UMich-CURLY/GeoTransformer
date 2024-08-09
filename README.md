@@ -48,13 +48,16 @@ python setup.py build_ext -i
 Code has been tested with Ubuntu 20.04, GCC 9.3.0, Python 3.8, PyTorch 1.7.1, CUDA 11.1 and cuDNN 8.1.0.
 
 ## Pre-trained Weights
-Upcoming! (I plan to upload the pretrain weights in August, 2024. If it didn't happen, feel free to email me.)
-Please download the weights and put them in `weights` directory.
+Please download the weights on [Google Drive](https://drive.google.com/drive/folders/1mnjdBZptRtnZMReSxkM2GBpKz2FPVA6v?usp=sharing) and put them in `weights` directory.
 
 ## Which model to use? SE3ET-E vs. SE3ET-I
 TL;DR: We suggest you to use SE3ET-E if the input point cloud is small (<10k points) and use SE3ET-I if the input point cloud is large (>10k points). 
 
 In the paper, we propose two transformer configurations. **SE3ET-E** contains all the equivariant and invariant self-attention and cross-attention we proposed, and **SE3ET-I** contains equivariant self-attention and invariant cross-attention. The first one provides better performance on low-overlap and random rotation cases but higher on memory consumption. The latter one maintain good performance while keeping lower memory consumption. We suggest you use SE3ET-E if the input point cloud is small (<10k points) and use SE3ET-I if the input point cloud is large (>10k points). We also provide SE3ET-E2 and SE3ET-I2 which the feature size is 2x smaller to boost computation performance. Please check the paper for their performance comparison.
+
+## Demo
+If you just want to test how well it works, run the demo code.
+TODO
 
 ## 3DMatch
 
@@ -87,8 +90,9 @@ CUDA_VISIBLE_DEVICES=0 python eval.py --benchmark=3DMatch --method=lgr
 ```
 
 ### Testing with Random Rotation
-TODO
-
+Direct to folders `experiments/se3ete.3dmatch.evalrot` for SE3ET-E or  `experiments/se3eti.3dmatch.evalrot` for SE3ET-I and follow the testing commands using the same pretrained weight. In these folders, we changed the following code to test the algorithm with random rotation of the input.
+1. In `dataset.py`, `rotated=True,` is added in the configuration of `test_dataset = ThreeDMatchPairDataset()` function.
+2. In `eval.py`, `transform = gt_logs[gt_index]['transform']` is commentted out. We are loading the transformation from data_dict constructed in dataloader.
 
 ## KITTI Point Cloud Pairs
 
@@ -114,10 +118,24 @@ CUDA_VISIBLE_DEVICES=0 python eval.py --method=lgr
 ```
 
 ### Testing with Random Rotation
-TODO
+Direct to folder `experiments/se3eti.kitti.evalrot` and follow the testing commands using the same pretrained weight. In `dataset.py`, the following configuration is added to the `test_dataset = OdometryKittiPairDataset()` function to test the algorithm with random rotation of the input.
+```
+use_augmentation=cfg.train.use_augmentation,
+augmentation_noise=cfg.train.augmentation_noise,
+augmentation_min_scale=cfg.train.augmentation_min_scale,
+augmentation_max_scale=cfg.train.augmentation_max_scale,
+augmentation_shift=cfg.train.augmentation_shift,
+augmentation_rotation=cfg.train.augmentation_rotation,
+```
+
 
 ## Generalization Test
-TODO
+In the generalization test, we evaluate the SE3ET-I2 model that trained on 3DMatch on (scaled) KITTI point cloud pairs. 
+Direct to `experiment/se3eti2.3dmatch.evalkitti`, and run 
+```bash
+CUDA_VISIBLE_DEVICES=0 python test.py --snapshot=../../weights/se3eti.kitti.pth.tar
+CUDA_VISIBLE_DEVICES=0 python eval.py --method=lgr
+```
 
 ## Acknowledgements
 - [GeoTransformer](https://github.com/qinzheng93/GeoTransformer)
