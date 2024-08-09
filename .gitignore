@@ -2,6 +2,7 @@ data/3DMatch/data
 data/*
 data/demo/*
 data/ModelNet/*
+.vscode
 *.tar
 *.out
 output

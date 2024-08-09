@@ -13,8 +13,8 @@ This work proposes exploiting equivariant learning from 3D point clouds to impro
   publisher={IEEE}
 }
 ```
-![](assets/SE3ET_qualitative_result.png)
-![](assets/se3et_framework.png)
+![](assets/SE3ET_qualitative_result.jpg)
+![](assets/se3et_framework.jpg)
 
 ## Installation
 
