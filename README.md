@@ -38,9 +38,6 @@ pip install -r requirements.txt
 Build extension package (might need root access)
 ```
 python setup.py build develop
-```
-Build extension package for E2PN (might need root access)
-```
 cd geotransformer/modules/e2pn/vgtk
 python setup.py build_ext -i
 ```
